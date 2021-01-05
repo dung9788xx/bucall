@@ -118,8 +118,8 @@ public class CallActivity extends Activity {
 
     private void connectToSignallingServer() {
         try {
-            socket = IO.socket("https://calm-badlands-59575.herokuapp.com/");
-
+            socket = IO.socket("http://172.16.10.170:3000");
+            Log.d("aaaaa","okok"+socket.connected());
             socket.on(EVENT_CONNECT, args -> {
                 Log.d(TAG, "connectToSignallingServer: connect");
                 socket.emit("create or join", "foo");
@@ -173,14 +173,26 @@ public class CallActivity extends Activity {
                     }*/
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                 //   e.printStackTrace();
+                    Log.d("aaaaaaab", e.toString());
                 }
             }).on(EVENT_DISCONNECT, args -> {
                 Log.d(TAG, "connectToSignallingServer: disconnect");
             });
+            socket.on("error", args -> {
+                Log.d("aaaaaaac", args.toString());
+            });
+            socket.on("connect_failed", args -> {
+                Log.d("aaaaaaad", args.toString());
+            });
+   socket.on("connect_error", args -> {
+                Log.d("aaaaaaae", args[0].toString());
+            });
+
             socket.connect();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+          //  e.printStackTrace();
+            Log.d("aaaaaaaf", e.toString());
         }
     }
 
