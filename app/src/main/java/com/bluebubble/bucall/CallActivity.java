@@ -118,7 +118,7 @@ public class CallActivity extends Activity {
 
     private void connectToSignallingServer() {
         try {
-            socket = IO.socket("http://172.16.10.170:3000");
+            socket = IO.socket("http://172.16.10.170:3000/");
             Log.d("aaaaa","okok"+socket.connected());
             socket.on(EVENT_CONNECT, args -> {
                 Log.d(TAG, "connectToSignallingServer: connect");
