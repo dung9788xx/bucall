@@ -32,6 +32,7 @@ import org.webrtc.VideoTrack;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -50,6 +51,8 @@ public class CallActivity extends Activity {
     public static final int VIDEO_RESOLUTION_WIDTH = 1280;
     public static final int VIDEO_RESOLUTION_HEIGHT = 720;
     public static final int FPS = 30;
+    public static final int MALE=1;
+    public static final int FEMALE=2;
 
     private Socket socket;
     private boolean isInitiator;
@@ -122,7 +125,15 @@ public class CallActivity extends Activity {
             Log.d("aaaaa","okok"+socket.connected());
             socket.on(EVENT_CONNECT, args -> {
                 Log.d(TAG, "connectToSignallingServer: connect");
-                socket.emit("create or join", "foo");
+                JSONObject message = new JSONObject();
+                try{
+                    message.put("iam", MALE);
+                    message.put("find", FEMALE);
+                }catch (JSONException e){
+
+                }
+                socket.emit("findingUsers",message);
+                socket.emit("create or join", message);
             }).on("ipaddr", args -> {
                 Log.d(TAG, "connectToSignallingServer: ipaddr");
             }).on("created", args -> {
